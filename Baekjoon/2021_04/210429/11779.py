@@ -10,6 +10,7 @@ import math
 def dijkstra(N, edges, start, end):
     cost = [(math.inf, []) for _ in range(N+1)]
     cost[start] = (0, [start])
+    visited = [False for _ in range(N+1)]
     q = []
     heapq.heappush(q, cost[start])
 
@@ -18,7 +19,7 @@ def dijkstra(N, edges, start, end):
         curr_node = history[-1]
         if cost[curr_node][0] < curr_cost:
             continue
-
+        visited[curr_node] = True
         for e, w in edges[curr_node]:
             if curr_cost + w < cost[e][0]:
                 new_cost = curr_cost + w
