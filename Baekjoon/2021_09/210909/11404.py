@@ -4,6 +4,9 @@ https://www.acmicpc.net/problem/11404
 """
 
 import math
+import sys
+
+input = sys.stdin.readline
 
 n = int(input())
 m = int(input())
