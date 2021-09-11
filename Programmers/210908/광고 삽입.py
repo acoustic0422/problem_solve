@@ -28,33 +28,27 @@ def solution(play_time, adv_time, logs):
     pTime = (0, hour2sec(play_time))
     aTimeLen = hour2sec(adv_time)
 
-    logSec = []
+    view = [0 for _ in range(pTime[1] + 1)]
     for l in logs:
+        # log의 시작점과 끝점에 +1 / -1 표시를 해준다
         start, end = l.split('-')
-        logSec.append((hour2sec(start), hour2sec(end)))
-
-    view = [0 for _ in range(pTime[1]+1)]
-    for ls, le in logSec:
-        view[ls] += 1
-        view[le] -= 1
+        view[hour2sec(start)] += 1
+        view[hour2sec(end)] -= 1
 
     for i in range(1, len(view)):
+        # 이전값을 다음값에 더해나가면 Log들이 전체 시청시간에 더해진다
         view[i] += view[i-1]
 
-    for i in range(1, len(view)):
-        view[i] += view[i - 1]
 
-    maxViewLen = 0
+    maxViewLen = sum(view[:aTimeLen]) #초기 값을 설정하고
+    currViewLen = maxViewLen
     answer = 0
-    for i in range(aTimeLen-1, pTime[1]):
-        if i>= aTimeLen:
-            if maxViewLen < view[i] - view[i-aTimeLen]:
-                maxViewLen = view[i] - view[i-aTimeLen]
-                answer = i - aTimeLen + 1
-        else:
-            if maxViewLen < view[i]:
-                maxViewLen = view[i]
-                answer = i - aTimeLen + 1
+    # 투포인터 알고리즘을 사용하여 최대값을 찾아나간다
+    for i in range(1, pTime[1] - aTimeLen+1):
+        currViewLen = currViewLen - view[i-1] + view[i+aTimeLen-1]
+        if currViewLen > maxViewLen:
+            maxViewLen = currViewLen
+            answer = i
 
     return sec2hour(answer)
 

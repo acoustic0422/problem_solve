@@ -3,6 +3,10 @@
 https://programmers.co.kr/learn/courses/30/lessons/72413
 """
 
+# 모든 node to node 최단거리구하는 것은 floyd
+# O(n^3) 이지만, n <= 200 정도로 작음 ( n <= 4,000,000 )
+# floyd 이후 계산은 간단하므로, floyd로
+
 import math
 
 def Floyd(edges, n):

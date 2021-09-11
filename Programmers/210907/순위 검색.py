@@ -14,12 +14,14 @@ def solution(info, query):
         score = int(i[-1])
         i = i[:-1]
 
+        # 가능한 모든 조합 고려하여 dict에 미리 집어넣음 !! 핵심
         for first in [i[0], '-']:
             for second in [i[1], '-']:
                 for third in [i[2], '-']:
                     for fourth in [i[3], '-']:
                         infodict[first+second+third+fourth].append(score)
 
+    # 각각의 List Sort (내림차순)
     for item in infodict:
         infodict[item].sort(reverse=True)
 
@@ -32,6 +34,7 @@ def solution(info, query):
         left = 0
         right = len(scoreList)-1
         base = 0
+        # 점수를 넘은 사람이 얼마나 되는지 find (이분탐색)
         while left <= right:
             mid = (left + right) // 2
             if scoreList[mid] >= score:
